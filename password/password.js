@@ -2,8 +2,11 @@
 
 
 $(document).ready(function() {
-    var getRandomNumber = function(max) {
-        var random;
+    let num = $("#num");
+    let password = $("#password");
+
+    let getRandomNumber = function (max) {
+        let random;
         if (!isNaN(max)) {
             random = Math.random(); //value >= 0.0 and < 1.0
             random = Math.floor(random * max); //value is an integer between 0 and max - 1
@@ -11,27 +14,36 @@ $(document).ready(function() {
         }
         return random;
     };
-    
+
+
+
     $("#generate").click(function() {
-        var password = $("#password");
+        // Variable declaration
+        const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-+!@";
+        let tempPassword = "";
+        let numLength = parseInt(num.val());
+
+        // Validate input from website
+        if (isNaN(numLength)){  // If input is not a number display error message and clear box
+            window.alert("Please enter an actual number in the Number of Characters box...");
+            num.val("");
+            return;
+        }
 
         password.val( "" ); // clear previous entry
-        var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-+!@";
-        var tempPassword = "";
-        for (var i = 0; i < $("#num"); i++) {
-            tempPassword += chars[getRandomNumber(chars.length - 1)]
-            window.alert(tempPassword)
+        for (let i = 0; i < numLength; i++) {
+            tempPassword += chars.charAt(getRandomNumber(chars.length));
         }
-        password.val(tempPassword)
+        password.val(tempPassword);
         
     }); // end click()
     
     $("#clear").click(function() {
-        $("#num").val( "" );
-        $("#password").val( "" );
-        $("#num").focus();
+        num.val( "" );
+        password.val( "" );
+        num.focus();
     }); // end click()
     
     // set focus on initial load
-    $("#num").focus();
+    num.focus();
 }); // end ready()
